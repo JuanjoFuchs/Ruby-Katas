@@ -1,0 +1,57 @@
+require 'minitest/autorun'
+require './string_calculator'
+
+class StringCalculatorTest < MiniTest::Unit::TestCase
+	def test_add_returns_zero_when_passing_nothing
+		assert_equal 0, StringCalculator.add("")
+	end	
+	
+	def test_add_returns_zero_when_passing_zero
+		assert_equal 0, StringCalculator.add("0")
+	end	
+	
+	def test_add_returns_three_when_passing_one_and_two
+		assert_equal 3, StringCalculator.add("1,2")
+	end
+
+	def test_add_returns_thirteen_when_passing_one_two_and_ten
+		assert_equal 13, StringCalculator.add("1,2,10")
+	end
+
+	def test_add_returns_six_when_passing_one_two_break_three
+		assert_equal 6, StringCalculator.add("1,2\n3")
+	end
+
+	def test_add_returns_three_when_passing_delimiter_one_semicolon_two
+		assert_equal 3, StringCalculator.add("//;\n1;2")
+	end
+
+	def test_add_returns_twentyone_when_passing_delimiter_ten_asterisks_two_asterisks_nine
+		assert_equal 21, StringCalculator.add("//**\n10**2**9")
+	end
+
+	def test_add_returns_negative_five_when_passing_one_negative_five
+		assert_equal "negatives not allowed, -5", StringCalculator.add("1,-5")
+	end
+
+	def test_add_returns_negative_five_negative_ten_when_passing_one_negative_five_negative_ten
+		assert_equal "negatives not allowed, -5, -10", StringCalculator.add("1,-5,-10")
+	end
+
+	def test_add_returns_two_when_passing_two_onethousenone
+		assert_equal 2, StringCalculator.add("2,1001")
+	end
+
+	def test_add_returns_six_when_passing_delimiter_one_asterisks_two_asterisks_three
+		assert_equal 6, StringCalculator.add("//[***]\n1***2***3")
+	end
+	
+	# “//[*][%]\n1*2%3” should return 6
+	def test_add_returns_six_when_passing_delimiters_one_asterisk_two_percent_three
+		assert_equal 6, StringCalculator.add("//[*][%]\n1*2%3")
+	end
+
+	def test_add_returns_fortyeight_when_passing_delimiters_ten_a_two_asterisks_thirtyone_percent_five
+		assert_equal 48, StringCalculator.add("//[***][%][a]\n10a2***31%5")
+	end
+end
